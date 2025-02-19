@@ -56,12 +56,16 @@ def add_movie(message):
 
 def get_code(message):
     code = message.text
-    bot.send_message(message.chat.id, "Теперь отправьте ссылку на фильм:")
+    bot.send_message(message.chat.id, "Теперь отправьте ссылку или название фильма:")
     bot.register_next_step_handler(message, lambda msg: save_movie(msg, code))
 
 def save_movie(message, code):
     add_movie_to_db(code, message.text)
     bot.send_message(message.chat.id, "✅ Фильм добавлен!")
+
+@bot.message_handler(func=lambda message: message.text)
+def error_message(message):
+    bot.send_message(message.chat.id, "Ошибка! Команда не распознана!")
 
 # Запуск бота
 bot.polling(none_stop=True)
