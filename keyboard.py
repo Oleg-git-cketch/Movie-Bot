@@ -5,12 +5,33 @@ def main_menu():
     markup.add(KeyboardButton("🎬 Фильмы"))
     return markup
 
+
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
+
+
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
+
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
+
 def sponsors_keyboard(sponsors):
-    markup = InlineKeyboardMarkup()
-    for channel in sponsors:
-        markup.add(InlineKeyboardButton(f"Подписаться на {channel}", url=channel))  # Используем ссылку как есть
-    markup.add(InlineKeyboardButton("✅ Проверить подписку", callback_data="check_subs"))
-    return markup
+    keyboard = InlineKeyboardMarkup()
+
+    for sponsor in sponsors:
+        link, _ = sponsor  # Разбираем кортеж
+        if not link or not isinstance(link, str):  # Проверяем, что это строка
+            continue
+        username = link.lstrip('@')  # Убираем '@', если есть
+        url = f"https://t.me/{username}"
+
+        if " " in username or not username.isascii():  # Проверка на валидность
+            continue
+
+        keyboard.add(InlineKeyboardButton(f"Подписаться на @{username}", url=url))
+
+    keyboard.add(InlineKeyboardButton("✅ Проверить подписку", callback_data="check_subs"))
+    return keyboard
+
+
 
 
 # Главное меню админа

@@ -5,9 +5,12 @@ db_path = "database.db"
 def get_connection():
     return sqlite3.connect(db_path)
 
+
 def init_db():
     with get_connection() as conn:
         cursor = conn.cursor()
+
+        # Создание таблицы movies
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS movies (
                 code TEXT PRIMARY KEY,
@@ -16,12 +19,16 @@ def init_db():
                 description TEXT
             )
         """)
+
+        # Создание таблицы sponsors
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS sponsors (
-                link TEXT PRIMARY KEY
+                link TEXT PRIMARY KEY,
+                is_mandatory INTEGER DEFAULT 1
             )
         """)
         conn.commit()
+
 
 def add_movie_to_db(code, link, image_id, description):
     with get_connection() as conn:
@@ -60,11 +67,11 @@ def delete_movie_from_db(code):
         conn.commit()
         return cursor.rowcount > 0
 
-def add_sponsor_to_db(link):
+def add_sponsor_to_db(link, is_mandatory=1):
     with get_connection() as conn:
         cursor = conn.cursor()
         try:
-            cursor.execute("INSERT INTO sponsors (link) VALUES (?)", (link,))
+            cursor.execute("INSERT INTO sponsors (link, is_mandatory) VALUES (?, ?)", (link, is_mandatory))
             conn.commit()
             return True
         except sqlite3.IntegrityError:
@@ -73,13 +80,13 @@ def add_sponsor_to_db(link):
 def get_all_sponsors():
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT link FROM sponsors")
-        return [row[0] for row in cursor.fetchall()]
+        cursor.execute("SELECT link, is_mandatory FROM sponsors")
+        return cursor.fetchall()  # Теперь возвращаем кортеж (ссылка, обязательность)
 
-def update_sponsor_in_db(old_link, new_link):
+def update_sponsor_in_db(old_link, new_link, is_mandatory):
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute("UPDATE sponsors SET link = ? WHERE link = ?", (new_link, old_link))
+        cursor.execute("UPDATE sponsors SET link = ?, is_mandatory = ? WHERE link = ?", (new_link, is_mandatory, old_link))
         conn.commit()
         return cursor.rowcount > 0
 
