@@ -19,10 +19,10 @@ init_db()
 def check_subscription(user_id):
     sponsors = get_all_sponsors()
     if not sponsors:
-        return True  # Если спонсоров нет, подписка не требуется
+        return True
 
     for channel, is_mandatory in sponsors:
-        if is_mandatory:  # Проверяем только обязательных спонсоров
+        if is_mandatory:
             status = bot.get_chat_member(channel, user_id).status
             if status not in ['member', 'administrator', 'creator']:
                 return False

@@ -8,22 +8,17 @@ def main_menu():
 
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-
-from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
-
-from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
-
 def sponsors_keyboard(sponsors):
     keyboard = InlineKeyboardMarkup()
 
     for sponsor in sponsors:
         link, _ = sponsor  # Разбираем кортеж
-        if not link or not isinstance(link, str):  # Проверяем, что это строка
+        if not link or not isinstance(link, str):
             continue
-        username = link.lstrip('@')  # Убираем '@', если есть
+        username = link.lstrip('@')
         url = f"https://t.me/{username}"
 
-        if " " in username or not username.isascii():  # Проверка на валидность
+        if " " in username or not username.isascii():
             continue
 
         keyboard.add(InlineKeyboardButton(f"Подписаться на @{username}", url=url))
@@ -50,6 +45,7 @@ def movies_admin_menu():
     markup.add(KeyboardButton("🔙 Назад"))
     return markup
 
+# Меню спонсоров для админа
 def sponsors_admin_menu():
     markup = ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add(KeyboardButton("➕ Добавить спонсора"))
