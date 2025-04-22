@@ -10,7 +10,7 @@ from keyboard import main_menu, sponsors_keyboard, movies_admin_menu, sponsors_a
 
 load_dotenv()
 
-TOKEN = os.getenv("7764598577:AAEe7_-nzbfyEkexT34O-qRn34P7jC5S-oI")
+TOKEN = "7764598577:AAEe7_-nzbfyEkexT34O-qRn34P7jC5S-oI"
 
 bot = telebot.TeleBot(TOKEN)
 init_db()
