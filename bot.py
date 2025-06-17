@@ -1,6 +1,5 @@
 import telebot
 from telebot.types import ReplyKeyboardRemove
-import os
 from dotenv import load_dotenv
 from db import (
     init_db, add_movie_to_db, get_movie_by_code, update_movie_in_db, delete_movie_from_db,
