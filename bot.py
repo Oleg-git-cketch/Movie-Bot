@@ -9,7 +9,7 @@ from keyboard import main_menu, sponsors_keyboard, movies_admin_menu, sponsors_a
 
 load_dotenv()
 
-TOKEN = "7764598577:AAEe7_-nzbfyEkexT34O-qRn34P7jC5S-oI"
+TOKEN = "7764598577:AAH_Str3uJEwXb2O5XCkxnmLyJx0onZCu0s"
 # ADMIN_ID = list(map(int, os.getenv("ADMINS").split(',')))
 
 bot = telebot.TeleBot(TOKEN)
